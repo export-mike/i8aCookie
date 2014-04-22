@@ -1,10 +1,22 @@
 //source: http://stackoverflow.com/questions/14573223/set-cookie-and-get-cookie-with-javascript
 $cookie = (function (){
-	function setCookie(name, value, exdays) {
-	    var exdate = new Date();
+	function setCookie(name, value, exdays, path) {
+	    var exdate = new Date(),
+	    	pathParam = ";path=";
+
+	    if(typeof exdays == 'string'){
+	    	path = exdays;
+	    	exdays = undefined;
+	    }
+
 	    exdate.setDate(exdate.getDate() + exdays);
 	    var c_value = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
-	    document.cookie = name + "=" + c_value;
+
+	    if(path == undefined){
+	   		path = '/';
+	    }
+
+	    document.cookie = name + "=" + c_value + pathParam + path;
 	}
 
 	function getCookie(name) {
